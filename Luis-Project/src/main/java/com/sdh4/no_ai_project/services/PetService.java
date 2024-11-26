@@ -1,6 +1,7 @@
 package com.sdh4.no_ai_project.services;
 
 import com.sdh4.no_ai_project.entities.Pet;
+import com.sdh4.no_ai_project.models.AnimalTypeCount;
 import com.sdh4.no_ai_project.services.exceptions.BadDataException;
 import com.sdh4.no_ai_project.services.exceptions.NotFoundException;
 
@@ -15,6 +16,7 @@ public interface PetService {
     List<Pet> getAllPetsNameTypeBreed() throws BadDataException;
     List<Pet> getPetsByType(String type) throws BadDataException;
     List<Pet> getPetsByBreed(String breed) throws BadDataException;
+    List<AnimalTypeCount> getPetsByAnimalTypeStats();
 
     // Update services
     Pet updatePetName(long id, String name) throws NotFoundException, BadDataException;

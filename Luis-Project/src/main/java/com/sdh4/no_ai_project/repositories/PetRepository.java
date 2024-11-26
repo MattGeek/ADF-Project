@@ -1,6 +1,7 @@
 package com.sdh4.no_ai_project.repositories;
 
 import com.sdh4.no_ai_project.entities.Pet;
+import com.sdh4.no_ai_project.models.AnimalTypeCount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,9 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
 
     @Query
     List<Pet> getPetsByBreed(@Param("breed") String breed);
+
+    @Query("SELECT new com.sdh4.no_ai_project.models.AnimalTypeCount(p.animalType, COUNT(p)) " + "FROM Pet p GROUP BY p.animalType")
+    List<AnimalTypeCount> getPetsGroupedByAnimalType();
 
     @Modifying
     @Query("UPDATE Pet p SET p.name=:newName WHERE p.id=:id")

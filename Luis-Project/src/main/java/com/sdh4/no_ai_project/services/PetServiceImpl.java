@@ -1,6 +1,7 @@
 package com.sdh4.no_ai_project.services;
 
 import com.sdh4.no_ai_project.entities.Pet;
+import com.sdh4.no_ai_project.models.AnimalTypeCount;
 import com.sdh4.no_ai_project.repositories.PetRepository;
 import com.sdh4.no_ai_project.services.exceptions.BadDataException;
 import com.sdh4.no_ai_project.services.exceptions.NotFoundException;
@@ -140,5 +141,9 @@ public class PetServiceImpl implements PetService {
         return rowsAffected;
     }
 
+    @Override
+    public List<AnimalTypeCount> getPetsByAnimalTypeStats() {
+        return petRepository.getPetsGroupedByAnimalType();
+    }
 
 }
