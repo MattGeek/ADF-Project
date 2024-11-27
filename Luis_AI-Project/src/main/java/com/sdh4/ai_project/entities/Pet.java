@@ -1,9 +1,6 @@
 package com.sdh4.ai_project.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +16,11 @@ public class Pet {
     private Long id;
 
     private String name;
-
     private String animalType;
-
     private String breed;
-
     private int age;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "household_eircode", nullable = false)
+    private Household household;
 }
