@@ -1,10 +1,12 @@
 package com.sdh4.ai_project.graphql;
 
+import com.sdh4.ai_project.dtos.StatisticDTO;
 import com.sdh4.ai_project.entities.Household;
 import com.sdh4.ai_project.entities.Pet;
 import com.sdh4.ai_project.services.HouseholdService;
 import com.sdh4.ai_project.services.PetService;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -18,6 +20,15 @@ public class QueryController {
     public QueryController(HouseholdService householdService, PetService petService) {
         this.householdService = householdService;
         this.petService = petService;
+    }
+
+    @QueryMapping
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public StatisticDTO getStatistic() {
+        String stats = householdService.getHouseholdStatistics();
+        String[] parts = stats.replace("Number of empty houses: ", "")
+                .replace("Number of full houses: ", "").split(", ");
+        return new StatisticDTO(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
     }
 
     @QueryMapping
@@ -39,17 +50,4 @@ public class QueryController {
     public Pet getPet(Long id) {
         return petService.getPetById(id);
     }
-
-    @QueryMapping
-    public Statistic getStatistic() {
-        String stats = householdService.getHouseholdStatistics();
-        String[] parts = stats.replace("Number of empty houses: ", "").replace("Number of full houses: ", "").split(", ");
-
-        return new Statistic(
-                Integer.parseInt(parts[0].trim()),
-                Integer.parseInt(parts[1].trim())
-        );
-    }
-
-    record Statistic(int emptyHouses, int fullHouses) {}
 }

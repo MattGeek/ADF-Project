@@ -5,6 +5,7 @@ import com.sdh4.ai_project.entities.Household;
 import com.sdh4.ai_project.services.HouseholdService;
 import com.sdh4.ai_project.services.PetService;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -19,7 +20,8 @@ public class MutationController {
     }
 
     @MutationMapping
-    public Household createHousehold(HouseholdInput input) {
+    @Secured("ROLE_ADMIN")
+    public Household createHousehold(HouseholdDTO input) {
         Household household = new Household(
                 input.eircode(),
                 input.numberOfOccupants(),
@@ -31,16 +33,16 @@ public class MutationController {
     }
 
     @MutationMapping
+    @Secured("ROLE_ADMIN")
     public Boolean deleteHouseholdById(String eircode) {
         householdService.deleteHouseholdById(eircode);
         return true;
     }
 
     @MutationMapping
+    @Secured("ROLE_ADMIN")
     public Boolean deletePetById(Long id) {
         petService.deletePetById(id);
         return true;
     }
-
-    record HouseholdInput(String eircode, int numberOfOccupants, int maxNumberOfOccupants, Boolean ownerOccupied) {}
 }
