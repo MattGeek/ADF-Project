@@ -20,4 +20,12 @@ public class Pet {
     @ManyToOne
     @JoinColumn(name="household_eircode")
     private Household household;
+
+    public Pet(String name, String animalType, String breed, int age, Household household) {
+        this.name = name;
+        this.animalType = animalType;
+        this.breed = breed;
+        this.age = age;
+        this.household = household;
+    }
 }
